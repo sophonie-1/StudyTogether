@@ -11,14 +11,14 @@ Authorization: Only comment authors or room hosts can delete comments.
 Responsive Design: Scrollable sections for comments and participants, with a gradient background and frosted glass effect.
 Error Handling: Displays validation errors for empty inputs or unauthorized actions.
 
-Requirements
+# Requirements
 
 Python 3.8+
 Django 4.x or 5.x
 SQLite (default) or other database supported by Django
 Tailwind CSS (via CDN)
 
-Setup Instructions
+#  Setup Instructions
 1. Clone the Repository
 git clone https://github.com/sophonie-1/StudyTogether.git
 cd StudyTogether 
@@ -45,7 +45,7 @@ python manage.py runserver
 Open http://127.0.0.1:8000 in your browser.
 Log in with the superuser credentials or register a new user (if registration is implemented).
 
-Project Structure
+#  Project Structure
 project/
 ├── myapp/
 │   ├── migrations/
@@ -62,13 +62,13 @@ project/
 ├── manage.py
 ├── README.md
 
-Models
+#  Models
 
 TopicModel: Stores topics (topic_name).
 RomModel: Represents rooms (host, topic, name, description, participants, created, updated).
 MessageModel: Represents comments (user, rom, body, created).
 
-Views
+#  Views
 
 CreateRoomView (CreateView):
 Handles room creation with RoomForm.
@@ -83,7 +83,7 @@ Enforces authorization for comment deletion.
 
 
 
-Templates
+#  Templates
 
 rom.html:
 Displays room details, scrollable comments, and participants.
