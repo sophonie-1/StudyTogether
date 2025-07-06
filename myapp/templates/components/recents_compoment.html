@@ -1,0 +1,13 @@
+<h3>Recent Comments</h3>
+{% for comment in recent_comments %}
+<div>
+    <span><a href="{% url 'myapp:user-profile' comment.user.id %}">@{{comment.user}}</a> commented to the
+        <b>{{comment.rom}}</b>
+    </span>
+    <p><i>{{comment.body}}</i></p>
+    <small>{{comment.created|timesince}} ago</small>
+</div>
+{% endfor %}
+{% if not recent_comments %}
+<p>No recent comments available.</p>
+{% endif %}

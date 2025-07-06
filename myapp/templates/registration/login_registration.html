@@ -1,0 +1,18 @@
+{% extends "main.html" %}
+
+{% block title %}
+Registration
+{% endblock title %}
+
+{% block content %}
+<h1>Registration page</h1>
+<div class="register">
+    <form action="." method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit">register</button>
+    </form>
+    <p>you have an account <a href="{% url 'myapp:login-user' %}">login</a></p>
+
+</div>
+{% endblock content %}

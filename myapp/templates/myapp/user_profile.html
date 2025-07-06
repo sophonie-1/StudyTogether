@@ -1,0 +1,40 @@
+{% extends "main.html" %}
+
+{% block title %}
+user profile
+
+{% endblock title %}
+
+{% block content %}
+<style>
+    .container-profile {
+        display: grid;
+        grid-template-columns: 1fr 3fr 1fr;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .topics,
+    .user-content,
+    .recents-comments {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+</style>
+
+<div class="container-profile">
+    <div class="topics">
+        {% include "components/feed_component.html" %}
+    </div>
+    <div class="user-content">
+        <h1>{{ user_profile }}'s Profile</h1>
+        {% include "components/rooms_component.html" %}
+    </div>
+    <div class="recents-comments">
+        {% include "components/recents_compoment.html" %}
+    </div>
+
+
+</div>
+{% endblock content %}
