@@ -160,12 +160,8 @@ class CreateRoomView(LoginRequiredMixin,CreateView):
     success_url=reverse_lazy('myapp:home-view')
 
     def form_valid(self, form):
-        response = super().form_valid(form)
-        topic_name = self.request.POST.get('topic')
-        topic, created = TopicModel.objects.get_or_create(topic_name=topic_name)
-        form.instance.topic = topic
         form.instance.host = self.request.user
-        return response
+        return super().form_valid(form)
     
 
 
