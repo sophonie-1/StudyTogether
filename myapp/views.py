@@ -10,6 +10,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login,authenticate
 from django.contrib.auth.models import User
+from .forms import RomModelForm
 
 
 class RegisterCreateView(CreateView):
@@ -154,14 +155,20 @@ class RomeView(LoginRequiredMixin, View):
     
 class CreateRoomView(LoginRequiredMixin,CreateView):
     template_name='myapp/room_form.html'
-    model=RomModel
-    fields=('topic','name','description')
-    
+    form_class=RomModelForm
     success_url=reverse_lazy('myapp:home-view')
 
     def form_valid(self, form):
+        writen_topic = form.cleaned_data.get('write_topic')
+        if writen_topic:
+            topic, created = TopicModel.objects.get_or_create(topic_name=writen_topic)
+            form.instance.topic = topic
         form.instance.host = self.request.user
-        return super().form_valid(form)
+        response = super().form_valid(form)
+        return response
+        
+
+    
     
 
 
