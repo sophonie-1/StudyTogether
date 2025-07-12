@@ -10,7 +10,8 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login,authenticate
 from django.contrib.auth.models import User
-from .forms import RomModelForm
+from .forms import RomModelForm,UserModelForm
+from django.core.exceptions import PermissionDenied
 
 
 class RegisterCreateView(CreateView):
@@ -32,7 +33,15 @@ class RegisterCreateView(CreateView):
         return response
     
 
+
+class UserUpdateView(UpdateView):
+    form_class=UserModelForm
+    model=User
+    template_name = "registration/userUpdate.html"
     
+    def get_success_url(self):
+        return reverse_lazy('myapp:home-view')
+   
     
     
 class LoginCustomView(LoginView):
@@ -175,8 +184,25 @@ class CreateRoomView(LoginRequiredMixin,CreateView):
 class RomModelUpdateView(LoginRequiredMixin,UpdateView):
     model = RomModel
     template_name = "myapp/room_form.html"
-    fields=('topic','name','description')
+    form_class = RomModelForm
     success_url=reverse_lazy('myapp:home-view')
+
+    def get_object(self, queryset=None):
+        # Get the object and ensure the current user is the host
+        obj = super().get_object(queryset)
+        if obj.host != self.request.user:
+            raise PermissionDenied("You are not authorized to edit this room.")
+        return obj
+
+    def form_valid(self, form):
+        # Handle write_topic to create or get a topic
+        write_topic = form.cleaned_data.get('write_topic')
+        if write_topic:
+            topic, created = TopicModel.objects.get_or_create(name=write_topic)
+            form.instance.topic = topic
+        # If write_topic is empty, the topic field (from dropdown) is used
+        response = super().form_valid(form)
+        return response
 
 class RomModelDeleteView(LoginRequiredMixin,DeleteView):
     model = RomModel

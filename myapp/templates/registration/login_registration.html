@@ -1,5 +1,9 @@
 {% extends "main.html" %}
 
+{% load static %}
+
+
+
 {% block title %}
 Registration
 {% endblock title %}
@@ -9,7 +13,23 @@ Registration
 <div class="register">
     <form action="." method="post">
         {% csrf_token %}
-        {{form.as_p}}
+
+        {% for f in form %}
+        <div class="form-group">
+            <label for="{{ f.id_for_label }}">{{ f.label }}</label>
+            {{ f }}
+            {% if f.errors %}
+            <div class="error">
+                {% for error in f.errors %}
+                <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        {% endfor %}
+
+
         <button type="submit">register</button>
     </form>
     <p>you have an account <a href="{% url 'myapp:login-user' %}">login</a></p>

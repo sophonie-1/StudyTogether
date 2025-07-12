@@ -11,7 +11,7 @@ urlpatterns = [
     path('logout-user/',LogoutView.as_view(),name='logout-user'),
     
     path('user-profile/<str:pk>/',UserProfileView.as_view(),name='user-profile'),
-
+    path('update-user/<str:pk>/',UserUpdateView.as_view(),name='update-user'),
 
     path('',HomeView.as_view(),name="home-view"),
     path('rom/<str:pk>/',RomeView.as_view(),name="rom-view"),

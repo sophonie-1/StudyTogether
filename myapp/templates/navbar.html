@@ -1,114 +1,24 @@
+{% load static %}
+
 {% if request.user.is_authenticated %}
-<style>
-    .header-container {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 1rem 2rem;
-        font-family: 'Arial', sans-serif;
-        background-color: #fff;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
 
-    .header-container h1 {
-        margin: 0;
-        font-size: 1.8rem;
-    }
 
-    .header-container h1 a {
-        color: #333;
-        text-decoration: none;
-        transition: color 0.2s ease;
-    }
-
-    .header-container h1 a:hover {
-        color: #007bff;
-    }
-
-    .header-container form {
-        flex: 1;
-        max-width: 400px;
-        margin: 0 1rem;
-    }
-
-    .header-container input[type="text"] {
-        width: 100%;
-        padding: 0.5rem;
-        border: 1px solid #e9ecef;
-        border-radius: 4px;
-        font-size: 1rem;
-        color: #333;
-        outline: none;
-        transition: border-color 0.2s ease;
-    }
-
-    .header-container input[type="text"]:focus {
-        border-color: #007bff;
-        box-shadow: 0 0 4px rgba(0, 123, 255, 0.2);
-    }
-
-    .header-container input[type="text"]::placeholder {
-        color: #6c757d;
-    }
-
-    .user-info {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-    }
-
-    .user-info a {
-        color: #dc3545;
-        text-decoration: none;
-        font-size: 1rem;
-        transition: color 0.2s ease;
-    }
-
-    .user-info a:hover {
-        color: #b02a37;
-    }
-
-    .user-info span {
-        color: #6c757d;
-        font-size: 0.9rem;
-    }
-
-    hr {
-        border: 0;
-        border-top: 1px solid #e9ecef;
-        margin: 0;
-    }
-
-    @media (max-width: 768px) {
-        .header-container {
-            flex-direction: column;
-            align-items: flex-start;
-            padding: 1rem;
-        }
-
-        .header-container form {
-            width: 100%;
-            margin: 1rem 0;
-        }
-
-        .user-info {
-            width: 100%;
-            justify-content: space-between;
-        }
-    }
-</style>
 
 <div class="header-container">
-    <h1>
-        <a href="{% url 'myapp:home-view' %}">Logo</a>
-    </h1>
+
+
+    <a class="logo-link" href="{% url 'myapp:home-view' %}">
+        <img class="image-logo" src="{% static 'images/image-6.jpg' %}" alt="logo image">
+    </a>
+
     <form action="{% url 'myapp:home-view' %}" method="get">
-        <input type="text" name="query" placeholder="Search rooms...">
+        <input type="text" name="query" placeholder="Search rooms..." />
     </form>
     <div class="user-info">
-        <span>@{{request.user}}</span>
+        <span>
+            <a href="{% url 'myapp:user-profile' request.user.id %}">@{{request.user}}</a>
+        </span>
+        <a href="{% url 'myapp:update-user' request.user.id %}">Settings</a>
         <a href="{% url 'myapp:logout-user' %}">Logout</a>
     </div>
 </div>

@@ -1,16 +1,79 @@
 {% extends "main.html" %}
+{% load static %}
 
 {% block title %}
-create Room
+Create Room
 {% endblock title %}
 
 {% block content %}
-<h1>create Room</h1>
+<h1>Create Room</h1>
 
-<form action="." method="post">
-    {%csrf_token%}
-    {{form.as_p}}
+<div class="register">
+    <form action="." method="post">
+        {% csrf_token %}
 
-    <button type="submit">submit</button>
-</form>
+        <!-- Display non-field (form-level) errors like the custom clean() error -->
+        {% if form.non_field_errors %}
+        <div class="error">
+            {% for error in form.non_field_errors %}
+            <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- write_topic -->
+        <div class="form-group">
+            <label for="{{ form.write_topic.id_for_label }}">{{ form.write_topic.label }}</label>
+            {{ form.write_topic }}
+            {% if form.write_topic.errors %}
+            <div class="error">
+                {% for error in form.write_topic.errors %}
+                <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- topic -->
+        <div class="form-group">
+            <label for="{{ form.topic.id_for_label }}">{{ form.topic.label }}</label>
+            {{ form.topic }}
+            {% if form.topic.errors %}
+            <div class="error">
+                {% for error in form.topic.errors %}
+                <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- name -->
+        <div class="form-group">
+            <label for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
+            {{ form.name }}
+            {% if form.name.errors %}
+            <div class="error">
+                {% for error in form.name.errors %}
+                <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- description -->
+        <div class="form-group">
+            <label for="{{ form.description.id_for_label }}">{{ form.description.label }}</label>
+            {{ form.description }}
+            {% if form.description.errors %}
+            <div class="error">
+                {% for error in form.description.errors %}
+                <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <button type="submit">Create Room</button>
+    </form>
+</div>
 {% endblock content %}

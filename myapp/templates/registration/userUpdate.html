@@ -1,11 +1,15 @@
 {% extends "main.html" %}
 
+{% load static %}
+
+
+
 {% block title %}
-Login page
+User Settings
 {% endblock title %}
 
 {% block content %}
-<h1>Login User</h1>
+<h1>User Settings</h1>
 <div class="register">
     <form action="." method="post">
         {% csrf_token %}
@@ -26,9 +30,9 @@ Login page
         {% endfor %}
 
 
-        <button type="submit">register</button>
+        <button type="submit">Update</button>
     </form>
-    <p>you don't have an account <a href="{% url 'myapp:register-user' %}">Register</a></p>
+
 
 </div>
 {% endblock content %}

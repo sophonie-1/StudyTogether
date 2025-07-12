@@ -29,6 +29,10 @@ user profile
     </div>
     <div class="user-content">
         <h1>{{ user_profile }}'s Profile</h1>
+        <small>{{user_profile.email|default:'has no email'}}</small>
+        {% if request.user == user_profile %}
+        <a href="{% url 'myapp:update-user' user_profile.id %}">setting</a>
+        {% endif %}
         {% include "components/rooms_component.html" %}
     </div>
     <div class="recents-comments">

@@ -1,5 +1,16 @@
 from django import forms
 from .models import RomModel, TopicModel
+from django.contrib.auth.models import User
+
+
+class UserModelForm(forms.ModelForm):
+    class Meta:
+        model=User
+        fields=['username','email']
+
+
+
+
 
 class RomModelForm(forms.ModelForm):
     """Form definition for RomModel."""
