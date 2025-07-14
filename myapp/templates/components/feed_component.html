@@ -1,6 +1,58 @@
-<h3>Browse Topics</h3>
-<a href="{% url 'myapp:home-view' %}">All</a>
-{% for topic in topics %}
-<p></p>
-<a href="{% url 'myapp:home-view' %}?query={{topic.topic_name}}">{{topic}}</a>
-{% endfor %}
+<style>
+    .browse-topics {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        margin-bottom: 20px;
+    }
+
+    .browse-title {
+        font-size: 20px;
+        font-weight: bold;
+        color: #2d3748;
+        margin-bottom: 12px;
+    }
+
+    .browse-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .topic-link {
+        display: inline-block;
+        padding: 8px 14px;
+        background-color: #edf2f7;
+        color: #2c5282;
+        border-radius: 20px;
+        font-size: 14px;
+        text-decoration: none;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .topic-link:hover {
+        background-color: #2c5282;
+        color: white;
+    }
+
+    .all-link {
+        background-color: #cbd5e0;
+        color: #1a202c;
+    }
+
+    .all-link:hover {
+        background-color: #2d3748;
+        color: #fff;
+    }
+</style>
+
+<div class="browse-topics">
+    <h3 class="browse-title">Browse Topics</h3>
+    <div class="browse-links">
+        <a href="{% url 'myapp:home-view' %}" class="topic-link all-link">All</a>
+        {% for topic in topics %}
+        <a href="{% url 'myapp:home-view' %}?query={{ topic.topic_name }}" class="topic-link">{{ topic }}</a>
+        {% endfor %}
+    </div>
+</div>

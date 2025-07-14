@@ -3,14 +3,44 @@
 <!DOCTYPE html>
 
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}study to gether{% endblock title %}</title>
-    <link rel="stylesheet" href="{% static 'style/main.css' %}?v=2" />
-  </head>
 
-  <body>
-    {% include "navbar.html" %} {% block content %} {% endblock content %}
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}study to gether{% endblock title %}</title>
+  <link rel="stylesheet" href="{% static 'style/main.css' %}?v=2" />
+  <style>
+
+  </style>
+</head>
+
+<body>
+
+  {% include "navbar.html" %}
+
+
+  {% block content %} {% endblock content %}
+  <!-- <script>
+    (function () {
+      let lastScrollY = window.scrollY;
+      const navbar = document.getElementById('navbar');
+
+      window.addEventListener('scroll', () => {
+        const currentScrollY = window.scrollY;
+
+        if (currentScrollY > lastScrollY && currentScrollY > 100) {
+          // Scrolling down and past 100px - hide navbar
+          navbar.classList.add('navbar--hidden');
+        } else {
+          // Scrolling up - show navbar
+          navbar.classList.remove('navbar--hidden');
+        }
+
+        lastScrollY = currentScrollY;
+      });
+    })();
+  </script> -->
+
+</body>
+
 </html>

@@ -1,14 +1,79 @@
 {% extends "main.html" %}
 
 {% block title %}
-Delete Rome
+Delete Room
 {% endblock title %}
 
 {% block content %}
-<h1>Rome page</h1>
-<form action="." method="post">
-    {% csrf_token %}
-    <p>are you sure you delete this room <strong>{{object}}</strong></p>
-    <button type="submit">delete</button>
-</form>
+<style>
+    .delete-room-container {
+        max-width: 600px;
+        margin: 80px auto;
+        padding: 30px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .delete-title {
+        text-align: center;
+        color: #c53030;
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+
+    .delete-message {
+        font-size: 18px;
+        color: #333;
+        margin-bottom: 30px;
+    }
+
+    .delete-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 15px;
+    }
+
+    .btn {
+        text-decoration: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+        border: none;
+        cursor: pointer;
+    }
+
+    .cancel-btn {
+        background-color: #f1f1f1;
+        color: #333;
+    }
+
+    .cancel-btn:hover {
+        background-color: #ddd;
+    }
+
+    .delete-btn {
+        background-color: #e53e3e;
+        color: #fff;
+    }
+
+    .delete-btn:hover {
+        background-color: #c53030;
+    }
+</style>
+<div class="delete-room-container">
+    <h1 class="delete-title">Delete Room</h1>
+    <form action="." method="post" class="delete-form">
+        {% csrf_token %}
+        <p class="delete-message">
+            Are you sure you want to delete the room <strong>{{ object }}</strong>?
+        </p>
+        <div class="delete-actions">
+            <a href="{% url 'myapp:home-view' %}" class="btn cancel-btn">Cancel</a>
+            <button type="submit" class="btn delete-btn">Delete</button>
+        </div>
+    </form>
+</div>
 {% endblock content %}

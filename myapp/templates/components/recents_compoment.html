@@ -1,16 +1,74 @@
-<h3>Recent Comments</h3>
-{% for comment in recent_comments %}
-<div>
-  <span
-    ><a href="{% url 'myapp:user-profile' comment.user.id %}"
-      >@{{comment.user}}</a
-    >
-    commented to the
-    <b>{{comment.rom}}</b>
-  </span>
-  <p><i>{{comment.body}}</i></p>
-  <small>{{comment.created|timesince}} ago</small>
+<style>
+  .recent-comments {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    margin-top: 20px;
+  }
+
+  .recent-comments-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #2d3748;
+    margin-bottom: 16px;
+  }
+
+  .comment-card {
+    border-bottom: 1px solid #e2e8f0;
+    padding: 10px 0;
+  }
+
+  .comment-meta {
+    font-size: 14px;
+    color: #4a5568;
+  }
+
+  .comment-user {
+    font-weight: 600;
+    color: #2b6cb0;
+    text-decoration: none;
+  }
+
+  .comment-user:hover {
+    text-decoration: underline;
+  }
+
+  .comment-body {
+    font-size: 15px;
+    color: #2d3748;
+    margin: 6px 0;
+  }
+
+  .comment-time {
+    font-size: 12px;
+    color: #718096;
+  }
+
+  .no-comments {
+    font-size: 14px;
+    color: #999;
+    margin-top: 10px;
+  }
+</style>
+
+<div class="recent-comments">
+  <h3 class="recent-comments-title">Recent Comments</h3>
+
+  {% for comment in recent_comments %}
+  <div class="comment-card">
+    <span class="comment-meta">
+      <a href="{% url 'myapp:user-profile' comment.user.id %}" class="comment-user">
+        @{{ comment.user }}
+      </a>
+      commented on <strong>{{ comment.rom }}</strong>
+    </span>
+    <p class="comment-body"><i>{{ comment.body }}</i></p>
+    <small class="comment-time">{{ comment.created|timesince }} ago</small>
+  </div>
+  {% endfor %}
+
+  {% if not recent_comments %}
+  <p class="no-comments">No recent comments available.</p>
+  {% endif %}
 </div>
-{% endfor %} {% if not recent_comments %}
-<p>No recent comments available.</p>
-{% endif %}
