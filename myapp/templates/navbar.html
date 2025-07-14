@@ -160,6 +160,10 @@
     <form action="{% url 'myapp:home-view' %}" method="get" class="search-form">
         <input type="text" name="query" placeholder="Search rooms..." class="search-input" />
     </form>
+    <!--- admin link -->
+    {% if request.user.is_staff %}
+    <a href="{% url 'admin:index' %}" class="nav-btn">Admin</a>
+    {% endif %}
 
     <!-- User Info -->
     <div class="user-info">
