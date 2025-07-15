@@ -64,7 +64,6 @@ class UserProfileUpdateView(LoginRequiredMixin,UpdateView):
         # Add this to handle uploaded files
         form.instance.user = self.request.user
         return super().form_valid(form)
-   
     
     
 class LoginCustomView(LoginView):
@@ -126,9 +125,6 @@ class HomeView(LoginRequiredMixin,View):
             'recent_comments':Recent_comments,
         }
         return render(request,'myapp/home.html',context)
-    
-    
-
 
 class RomeView(LoginRequiredMixin, View):
     def get(self, request, pk):
@@ -204,10 +200,6 @@ class CreateRoomView(LoginRequiredMixin,CreateView):
         response = super().form_valid(form)
         return response
         
-
-    
-    
-
 
 class RomModelUpdateView(LoginRequiredMixin,UpdateView):
     model = RomModel

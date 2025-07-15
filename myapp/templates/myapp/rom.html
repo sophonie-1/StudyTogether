@@ -191,8 +191,22 @@ Room
             <h1 class="room-name">Room: {{ rom.name }}</h1>
             <p class="room-desc">{{ rom.description }}</p>
             <div class="room-time">
-                <p>Created at: <span class="room-content-created">{{ rom.created }}</span></p>
-                <p>Updated at: <span class="room-content-updated">{{ rom.updated }}</span></p>
+                <small>Created at: <span class="room-content-created">{{ rom.created }}</span></small>
+                <small>Updated at: <span class="room-content-updated">{{ rom.updated }}</span></small>
+            </div>
+
+            <!-- Message Creation Form -->
+            <div class="container-message">
+                {% if form_error %}
+                <p class="container-message-error">{{ form_error }}</p>
+                {% endif %}
+                <form method="POST" action="{% url 'myapp:rom-view' rom.id %}" class="container-message-form">
+                    {% csrf_token %}
+                    <input type="text" name="body" placeholder="Write your comment here..."
+                        class="container-message-input">
+                    <button type="submit" name="action" value="create" class="container-message-submit">Post
+                        Comment</button>
+                </form>
             </div>
 
             <!-- Comments Section -->
@@ -227,19 +241,7 @@ Room
                 {% endfor %}
             </div>
 
-            <!-- Message Creation Form -->
-            <div class="container-message">
-                {% if form_error %}
-                <p class="container-message-error">{{ form_error }}</p>
-                {% endif %}
-                <form method="POST" action="{% url 'myapp:rom-view' rom.id %}" class="container-message-form">
-                    {% csrf_token %}
-                    <input type="text" name="body" placeholder="Write your comment here..."
-                        class="container-message-input">
-                    <button type="submit" name="action" value="create" class="container-message-submit">Post
-                        Comment</button>
-                </form>
-            </div>
+
         </div>
 
         <!-- Participants Section -->
