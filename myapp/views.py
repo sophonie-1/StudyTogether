@@ -25,8 +25,7 @@ class RegisterCreateView(CreateView):
     def form_valid(self, form):
         response=super().form_valid(form)
         # Create a UserProfile instance for the new user
-        user_profile = UserProfile.objects.create(user=self.object)
-        user_profile.save()
+        
         username=form.cleaned_data.get('username')
         password =form.cleaned_data.get('password1')
 
@@ -39,7 +38,7 @@ class RegisterCreateView(CreateView):
     
 
 
-class UserUpdateView(UpdateView):
+class UserUpdateView(LoginRequiredMixin,UpdateView):
     form_class=UserModelForm
     model=User
     template_name = "registration/userUpdate.html"
@@ -218,7 +217,7 @@ class RomModelUpdateView(LoginRequiredMixin,UpdateView):
         # Handle write_topic to create or get a topic
         write_topic = form.cleaned_data.get('write_topic')
         if write_topic:
-            topic, created = TopicModel.objects.get_or_create(name=write_topic)
+            topic, created = TopicModel.objects.get_or_create(topic_name=write_topic)
             form.instance.topic = topic
         # If write_topic is empty, the topic field (from dropdown) is used
         response = super().form_valid(form)
