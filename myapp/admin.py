@@ -20,3 +20,4 @@ class TopicAdmin(admin.ModelAdmin):
 admin.site.register(RomModel,RomAdmin)
 admin.site.register([MessageModel], MessageAdmin)
 admin.site.register(TopicModel, TopicAdmin)
+admin.site.register(UserProfile)

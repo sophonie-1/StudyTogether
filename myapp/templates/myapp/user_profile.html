@@ -1,5 +1,5 @@
 {% extends "main.html" %}
-
+{% load static %}
 {% block title %}
 User Profile
 {% endblock title %}
@@ -22,11 +22,27 @@ User Profile
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     }
 
+    .user-image {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 12px;
+    }
+
     /* Profile Header */
     .profile-header h1 {
         font-size: 24px;
         color: #2d3748;
         margin-bottom: 4px;
+    }
+
+    .profile-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin-bottom: 20px;
     }
 
     .email {
@@ -45,6 +61,18 @@ User Profile
         text-decoration: none;
         font-weight: 600;
         transition: background-color 0.3s ease;
+    }
+
+    .btn-update-user-infor {
+        display: inline-block;
+        background-color: #38a169;
+        color: white;
+        padding: 8px 14px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+        margin-left: 10px;
     }
 
     .btn-settings:hover {
@@ -79,10 +107,29 @@ User Profile
 
     <div class="user-content">
         <div class="profile-header">
+            {% if user_profile_data.profile_picture %}
+            <img src="{{ user_profile_data.profile_picture.url }}" alt="Profile Picture" class="user-image">
+            {% else %}
+            <img src="{% static 'images/image-1.jpg' %}" alt="Default Profile Picture" class="user-image">
+            {% endif %}
+            {% if user_profile_data.bio %}
+            <p class="bio">{{ user_profile_data.bio }}</p>
+            {% else %}
+            <p class="bio">This user has no bio.</p>
+            {% endif %}
+
+
             <h1>{{ user_profile }}'s Profile</h1>
             <small class="email">{{ user_profile.email|default:'Has no email' }}</small>
             {% if request.user == user_profile %}
             <a href="{% url 'myapp:update-user' user_profile.id %}" class="btn-settings">Settings</a>
+
+            {% if request.user.id %}
+            <a href="{% url 'myapp:update-user-infor' request.user.id %}" class="btn-update-user-infor">update user
+                infor</a>
+            {% endif %}
+
+
             {% endif %}
         </div>
 

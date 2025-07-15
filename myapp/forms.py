@@ -1,12 +1,25 @@
 from django import forms
-from .models import RomModel, TopicModel
+from .models import RomModel, TopicModel,UserProfile
 from django.contrib.auth.models import User
+
+
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['profile_picture', 'bio', 'location']
+        widgets = {
+            'bio': forms.Textarea(attrs={'rows': 3}),
+            'location': forms.TextInput(attrs={'placeholder': 'Enter your location'}),
+        }
+
+        
 
 
 class UserModelForm(forms.ModelForm):
     class Meta:
         model=User
-        fields=['username','email']
+        fields=['username','email', 'first_name', 'last_name']
 
 
 

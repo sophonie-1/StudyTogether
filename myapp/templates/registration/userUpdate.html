@@ -11,7 +11,7 @@ User Settings
 {% block content %}
 <h1>User Settings</h1>
 <div class="register">
-    <form action="." method="post">
+    <form action="." method="post" enctype="multipart/form-data">
         {% csrf_token %}
 
         {% for f in form %}

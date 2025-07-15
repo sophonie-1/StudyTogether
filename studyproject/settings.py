@@ -120,6 +120,11 @@ USE_TZ = True
 
 # Define the base directory for static files
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+
+# Define the base directory for media files
+MEDIA_ROOT = BASE_DIR / 'media'
+
 
 
 

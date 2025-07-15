@@ -210,6 +210,8 @@ Room
                             </small>
                             <p class="room-comment-user-paral">{{ comment.body }}</p>
                         </div>
+
+                        {% if comment.user == request.user %}
                         <form method="POST" action="{% url 'myapp:rom-view' rom.id %}"
                             onsubmit="return confirm('Are you sure you want to delete this comment?');">
                             {% csrf_token %}
@@ -217,6 +219,9 @@ Room
                             <button type="submit" name="action" value="delete"
                                 class="room-comment-delete">Delete</button>
                         </form>
+                        {% endif %}
+
+
                     </div>
                 </div>
                 {% endfor %}

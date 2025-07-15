@@ -10,7 +10,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login,authenticate
 from django.contrib.auth.models import User
-from .forms import RomModelForm,UserModelForm
+from .forms import RomModelForm,UserModelForm,UserProfileForm
 from django.core.exceptions import PermissionDenied
 
 
@@ -20,8 +20,13 @@ class RegisterCreateView(CreateView):
     redirect_authenticated_user =True
     success_url=reverse_lazy('myapp:home-view')
 
+    
+
     def form_valid(self, form):
         response=super().form_valid(form)
+        # Create a UserProfile instance for the new user
+        user_profile = UserProfile.objects.create(user=self.object)
+        user_profile.save()
         username=form.cleaned_data.get('username')
         password =form.cleaned_data.get('password1')
 
@@ -40,7 +45,25 @@ class UserUpdateView(UpdateView):
     template_name = "registration/userUpdate.html"
     
     def get_success_url(self):
-        return reverse_lazy('myapp:home-view')
+        return reverse_lazy('myapp:user-profile',args=[self.request.user.id])
+    
+class UserProfileUpdateView(LoginRequiredMixin,UpdateView):
+    form_class = UserProfileForm
+    template_name = 'registration/userUpdate.html'
+    context_object_name = 'user_profile'
+    model = UserProfile
+    
+    def get_object(self, queryset=None):
+        # Get the user profile for the current user
+        return get_object_or_404(UserProfile, user=self.request.user)
+    
+    def get_success_url(self):
+        return reverse_lazy('myapp:user-profile',args=[self.kwargs['pk']])
+    
+    def form_valid(self, form):
+        # Add this to handle uploaded files
+        form.instance.user = self.request.user
+        return super().form_valid(form)
    
     
     
@@ -60,17 +83,22 @@ class UserProfileView(LoginRequiredMixin,DetailView):
         context['rooms'] = user.rommodel_set.all()
         context['recent_comments'] = user.messagemodel_set.all()
         context['topics'] = TopicModel.objects.all()
-        return context
+        context['user_profile_data'] =UserProfile.objects.filter(user=user).first()  # Assuming you have a UserProfile model
+        return context            
     
 class UserProfileViewV(LoginRequiredMixin,View):
     def get(self, request, username):
         user = get_object_or_404(User, username=username)
+        # Assuming you have a UserProfile model linked to User
+        # If you have a UserProfile model, you can fetch it like this:
+        user_profile = get_object_or_404(UserProfile, user=user)
         user_rooms = user.rommodel_set.all()
         user_messages = user.messagemodel_set.all()
         context = {
             'user_profile': user,
             'user_rooms': user_rooms,
-            'user_messages': user_messages
+            'user_messages': user_messages,
+            'user_profile_data': user_profile,  # Assuming you have a UserProfile model
         }
         return render(request, 'myapp/user_profile.html', context)
 

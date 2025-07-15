@@ -10,6 +10,14 @@ Login page
     <form action="." method="post">
         {% csrf_token %}
 
+        {% if form.non_field_errors %}
+        <div class="non-field-errors">
+            {% for error in form.non_field_errors %}
+            <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+
         {% for f in form %}
         <div class="form-group">
             <label for="{{ f.id_for_label }}">{{ f.label }}</label>
