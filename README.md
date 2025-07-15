@@ -14,8 +14,8 @@ Error Handling: Displays validation errors for empty inputs or unauthorized acti
 # Requirements
 
 Python 3.8+
-Django 4.x or 5.x
-SQLite (default) or other database supported by Django
+pip install -r requirement.txt
+
 Tailwind CSS (via CDN)
 
 #  Setup Instructions
@@ -27,8 +27,8 @@ cd StudyTogether
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 
-3. Install Dependencies
-pip install django
+#  Install Dependencies
+pip install -r requirement.txt
 
 4. Apply Migrations
 python manage.py makemigrations
@@ -97,7 +97,7 @@ Matches the colorful, modern design of rom.html.
 
 
 
-URLs
+#  URLs
 In myapp/urls.py:
 from django.urls import path
 from .views import RomeView, CreateRoomView
@@ -109,7 +109,7 @@ urlpatterns = [
     # Add home-view path
 ]
 
-Usage
+#  Usage
 
 Create a Room:
 Navigate to /room/create/.
@@ -130,9 +130,9 @@ Unauthorized deletion attempts show an error in the template.
 
 
 
-Styling
+# Styling
 
-Tailwind CSS: Included via CDN for responsive, modern design.
+CSS:pure css for  modern design.
 Gradient Background: Linear gradient from gray to purple.
 Scrollable Sections:
 Comments: Fixed height (100vh-400px) with vertical scrolling.
@@ -142,25 +142,22 @@ Participants: Fixed height (16rem) with vertical scrolling.
 Interactive Elements: Hover effects on buttons and comment/participant rows.
 Error Messages: Red text for validation or authorization errors.
 
-Troubleshooting
+#  Troubleshooting
 
 Delete Functionality:
 Ensure message_id is sent in POST requests (check browser Network tab).
 Verify user is the comment author or room host.
 
 
-Styling Issues:
-Confirm Tailwind CSS CDN is loading.
-Check for conflicts in main.html.
 
 
-Errors:
+#  Errors:
 Run python manage.py runserver with DEBUG=True.
 Inspect console or browser developer tools (F12).
 
 
 
-Future Improvements
+# Future Improvements
 
 Add user registration and login views.
 Implement AJAX for comment creation/deletion to avoid page reloads.
