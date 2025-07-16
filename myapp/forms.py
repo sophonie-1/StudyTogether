@@ -7,10 +7,11 @@ from django.contrib.auth.models import User
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ['profile_picture', 'bio', 'location']
+        fields = ['profile_picture', 'bio', 'location', 'birth_date']
         widgets = {
             'bio': forms.Textarea(attrs={'rows': 3}),
             'location': forms.TextInput(attrs={'placeholder': 'Enter your location'}),
+            'birth_date': forms.DateInput(attrs={'type': 'date'}),
         }
 
         

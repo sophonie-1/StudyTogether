@@ -17,7 +17,12 @@ class TopicAdmin(admin.ModelAdmin):
     search_fields=['topic_name']
     list_filter=['created','updated']
 
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ['user', 'bio', 'location', 'birth_date']
+    search_fields = ['user__username', 'bio', 'location']
+    list_filter = ['birth_date']
+
 admin.site.register(RomModel,RomAdmin)
 admin.site.register([MessageModel], MessageAdmin)
 admin.site.register(TopicModel, TopicAdmin)
-admin.site.register(UserProfile)
+admin.site.register(UserProfile,UserProfileAdmin)
