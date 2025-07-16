@@ -132,8 +132,35 @@ User Profile
 
             {% endif %}
         </div>
+        {% if is_paginated %}
+        <div class="pagination">
+            <!-- Previous page link -->
+            {% if rooms.has_previous %}
+            <a href="?page={{ rooms.previous_page_number }}">« Previous</a>
+            {% else %}
+            <span class="disabled">« Previous</span>
+            {% endif %}
 
-        {% include "components/rooms_component.html" %}
+            <!-- Page numbers -->
+            {% for num in rooms.paginator.page_range %}
+            {% if rooms.number == num %}
+            <span class="current">{{ num }}</span>
+            {% else %}
+            <a href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+            {% endfor %}
+
+            <!-- Next page link -->
+            {% if rooms.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Next »</a>
+            {% else %}
+            <span class="disabled">Next »</span>
+            {% endif %}
+        </div>
+        {% endif %}
+
+
+        {% include "components/_room_list.html" %}
     </div>
 
     <div class="recents-comments">

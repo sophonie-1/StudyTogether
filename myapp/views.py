@@ -2,7 +2,7 @@ from django.shortcuts import render,get_list_or_404,get_object_or_404,redirect
 from django.db.models import Q
 from .models import *
 from django.views import View
-from django.views.generic import CreateView,UpdateView,DeleteView,DetailView
+from django.views.generic import CreateView,UpdateView,DeleteView,DetailView,ListView
 from django.urls import reverse_lazy
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import LoginView
@@ -12,6 +12,8 @@ from django.contrib.auth import login,authenticate
 from django.contrib.auth.models import User
 from .forms import RomModelForm,UserModelForm,UserProfileForm
 from django.core.exceptions import PermissionDenied
+
+from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 
 
 class RegisterCreateView(CreateView):
@@ -73,15 +75,28 @@ class LoginCustomView(LoginView):
 class UserProfileView(LoginRequiredMixin,DetailView):
     model = User
     template_name = 'myapp/user_profile.html'
-    context_object_name = 'user_profile'    
+    context_object_name = 'user_profile'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.get_object()
-        context['rooms'] = user.rommodel_set.all()
+        room_list = user.rommodel_set.all()
+
+        # paginator = Paginator(room_list, 2)  # Show 2 rooms per page
+        # page = self.request.GET.get('page')
+        # rooms= paginator.get_page(page)
+        # try:
+        #     rooms =paginator.page(page)
+        # except PageNotAnInteger:
+        #     rooms = paginator.page(1)
+        # except EmptyPage:
+        #     rooms = paginator.page(paginator.num_pages)
+        context['rooms'] = room_list
+        context['user_page'] = True
         context['recent_comments'] = user.messagemodel_set.all()
         context['topics'] = TopicModel.objects.all()
-        context['user_profile_data'] =UserProfile.objects.filter(user=user).first()  # Assuming you have a UserProfile model
+        context['user_profile_data'] =UserProfile.objects.filter(user=user).first()
+        
         return context            
     
 class UserProfileViewV(LoginRequiredMixin,View):
@@ -100,7 +115,32 @@ class UserProfileViewV(LoginRequiredMixin,View):
         }
         return render(request, 'myapp/user_profile.html', context)
 
+class HomeListView(LoginRequiredMixin,ListView):
+    model = RomModel
+    template_name = 'myapp/home.html'
+    context_object_name = 'rooms'
+    paginate_by = 4  # Number of rooms per page
 
+    def get_queryset(self):
+        query = self.request.GET.get('query') or ''
+        return RomModel.objects.filter(
+            Q(topic__topic_name__icontains=query) |
+            Q(name__icontains=query) |
+            Q(description__icontains=query) |
+            Q(host__username__icontains=query)
+        ).order_by('-created', '-updated')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        query = self.request.GET.get('query') or ''
+        context['topics'] = TopicModel.objects.order_by('-created', '-updated')
+        context['recent_comments'] = MessageModel.objects.filter(Q(rom__topic__topic_name__icontains=query) |
+            Q(rom__name__icontains=query) |
+            Q(rom__description__icontains=query) |
+            Q(rom__host__username__icontains=query)).order_by('-created')[:5]  # Last 5 comments
+        
+        return context
 
 class HomeView(LoginRequiredMixin,View):
     def get(self,request):

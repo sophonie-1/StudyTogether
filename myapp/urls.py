@@ -14,7 +14,7 @@ urlpatterns = [
     path('update-user/<str:pk>/',UserUpdateView.as_view(),name='update-user'),
     path('update-user-infor/<str:pk>/',UserProfileUpdateView.as_view(),name='update-user-infor'),
 
-    path('',HomeView.as_view(),name="home-view"),
+    path('',HomeListView.as_view(),name="home-view"),
     path('rom/<str:pk>/',RomeView.as_view(),name="rom-view"),
 
 
